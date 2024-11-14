@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImagePainter
@@ -42,8 +43,16 @@ import com.example.talkmate.ui.theme.darkPurple
 import com.example.talkmate.ui.theme.lightPurple
 import com.example.talkmate.ui.theme.textWhite
 import com.example.talkmate.viewModel.ChatViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
 
 class MainActivity : ComponentActivity() {
     private val uriState = MutableStateFlow("")
@@ -59,9 +68,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            MobileAds.initialize(this@MainActivity) {}
+        }
+
         setContent {
             TalkMateTheme {
                 Scaffold(
+                    modifier = Modifier.fillMaxSize(),
                     topBar = {
                         Box(
                             modifier = Modifier
@@ -80,9 +96,29 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { paddingValues ->
                     ChatScreen(paddingValues = paddingValues)
+                    AdBannerView(modifier = Modifier.fillMaxWidth())
                 }
             }
         }
+    }
+
+    @Composable
+    fun AdBannerView(modifier: Modifier = Modifier) {
+        AndroidView(
+            modifier = modifier,
+            factory = { context ->
+                // Create a new AdView
+                AdView(context).apply {
+                    adUnitId = "ca-app-pub-5160243528854371/1055699476" // Replace with your AdMob ad unit ID
+                    setAdSize(AdSize.BANNER) // Set the ad size
+                    loadAd(AdRequest.Builder().build()) // Load the ad request
+                }
+            },
+            update = { adView ->
+                // Update the AdView if needed
+                adView.loadAd(AdRequest.Builder().build())
+            }
+        )
     }
 
     @Composable

@@ -69,4 +69,7 @@ dependencies {
 
     // Material Icon
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
+    // Google AdMob
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
 }
