@@ -1,6 +1,7 @@
 package com.example.talkmate.data
 
 import android.graphics.Bitmap
+import com.google.ai.client.generativeai.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
