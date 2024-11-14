@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -36,6 +37,10 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import com.example.talkmate.ui.theme.TalkMateTheme
+import com.example.talkmate.ui.theme.darkBlue
+import com.example.talkmate.ui.theme.darkPurple
+import com.example.talkmate.ui.theme.lightPurple
+import com.example.talkmate.ui.theme.textWhite
 import com.example.talkmate.viewModel.ChatViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -61,15 +66,15 @@ class MainActivity : ComponentActivity() {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.primary)
-                                .height(55.dp)
+                                .background(color = lightPurple)
+                                .height(75.dp)
                                 .padding(horizontal = 16.dp)
                         ) {
                             Text(
                                 modifier = Modifier.align(Alignment.Center),
                                 text = stringResource(R.string.app_name),
-                                fontSize = 19.sp,
-                                color = MaterialTheme.colorScheme.onPrimary
+                                fontSize = 25.sp,
+                                color = textWhite
                             )
                         }
                     }
@@ -111,10 +116,13 @@ class MainActivity : ComponentActivity() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(Color.Transparent)
                     .padding(bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
+                Column(
+                    modifier = Modifier.background(Color.Transparent)
+                ) {
                     bitmap?.let {
                         Image(
                             modifier = Modifier
@@ -130,6 +138,7 @@ class MainActivity : ComponentActivity() {
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     modifier = Modifier
+                        .background(Color.Transparent)
                         .size(40.dp)
                         .clickable {
                             imagePicker.launch(
@@ -141,7 +150,7 @@ class MainActivity : ComponentActivity() {
                         },
                     imageVector = Icons.Rounded.AddPhotoAlternate,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = lightPurple
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 TextField(
@@ -157,6 +166,7 @@ class MainActivity : ComponentActivity() {
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     modifier = Modifier
+                        .background(Color.Transparent)
                         .size(40.dp)
                         .clickable {
                             chatViewModel.onEvent(
@@ -168,7 +178,7 @@ class MainActivity : ComponentActivity() {
                         },
                     imageVector = Icons.Rounded.Send,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = lightPurple
                 )
             }
         }
@@ -195,11 +205,11 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(color = darkPurple)
                     .padding(16.dp),
                 text = prompt,
                 fontSize = 17.sp,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = textWhite
             )
         }
     }
@@ -213,11 +223,11 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(12.dp))
-                    .background(MaterialTheme.colorScheme.tertiary)
+                    .background(color = darkBlue)
                     .padding(16.dp),
                 text = response,
                 fontSize = 17.sp,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = textWhite
             )
         }
     }
